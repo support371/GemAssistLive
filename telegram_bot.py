@@ -19,9 +19,11 @@ class TelegramBot:
     def validate_config(self):
         """Validate Telegram configuration"""
         if not self.bot_token:
-            raise ValueError("TELEGRAM_BOT_TOKEN is required")
+            logger.warning("TELEGRAM_BOT_TOKEN not configured - Telegram sending disabled")
+            return False
         if not self.chat_id:
-            raise ValueError("TELEGRAM_CHAT_ID is required")
+            logger.warning("TELEGRAM_CHAT_ID not configured - Telegram sending disabled") 
+            return False
         
         # Test bot connection
         try:
@@ -30,10 +32,11 @@ class TelegramBot:
                 logger.info(f"Telegram bot connected: {response['result'].get('username')}")
                 return True
             else:
-                raise ValueError(f"Bot validation failed: {response.get('description')}")
+                logger.error(f"Bot validation failed: {response.get('description')}")
+                return False
         except Exception as e:
             logger.error(f"Telegram bot validation failed: {e}")
-            raise
+            return False
     
     @rate_limit(max_calls=20, period=60)  # Telegram rate limit: 20 messages per minute
     def send_message(self, text, parse_mode='HTML'):
