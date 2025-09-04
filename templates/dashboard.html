@@ -3,14 +3,22 @@
 {% block title %}Dashboard - GemFeed{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h3 mb-0">
-                <i data-feather="activity" class="me-2"></i>
-                System Dashboard
-            </h1>
-            <div class="btn-group">
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <div class="d-flex justify-content-center align-items-center mb-3">
+                <i data-feather="shield" width="48" height="48" class="me-3" style="color: var(--accent-color);"></i>
+                <h1 class="hero-title mb-0">GEM</h1>
+            </div>
+            <h2 class="h1 mb-3" style="color: var(--text-light);">Security Monitoring Newsletter</h2>
+            <p class="hero-subtitle">
+                Your trusted source for curated cybersecurity intelligence, threat analysis,
+                and security monitoring insights delivered directly to your Telegram channel.
+            </p>
+            
+            <!-- Control Buttons -->
+            <div class="btn-group mb-4">
                 <button type="button" class="btn btn-outline-primary" id="collectBtn">
                     <i data-feather="download" width="16" height="16" class="me-1"></i>
                     Collect News
@@ -19,73 +27,43 @@
                     <i data-feather="send" width="16" height="16" class="me-1"></i>
                     Send Telegram
                 </button>
+                <button type="button" class="btn btn-outline-primary" id="refreshBtn">
+                    <i data-feather="refresh-cw" width="16" height="16" class="me-1"></i>
+                    Refresh Feeds
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Statistics Cards -->
-<div class="row mb-4">
-    <div class="col-md-3 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        <i data-feather="file-text" class="text-primary" width="24" height="24"></i>
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <div class="text-muted small">Total Articles</div>
-                        <div class="h4 mb-0">{{ stats.total_articles if stats else 0 }}</div>
-                    </div>
-                </div>
+<!-- Professional Statistics Cards -->
+<div class="row mb-5">
+    <div class="col-md-4 mb-4">
+        <div class="card stats-card text-center">
+            <div class="card-body py-4">
+                <div class="stats-number">50+</div>
+                <div class="stats-label">Security Sources</div>
+                <div class="text-muted small mt-2">Total Articles: {{ stats.total_articles if stats else 0 }}</div>
             </div>
         </div>
     </div>
     
-    <div class="col-md-3 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        <i data-feather="calendar" class="text-success" width="24" height="24"></i>
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <div class="text-muted small">Today</div>
-                        <div class="h4 mb-0">{{ stats.articles_today if stats else 0 }}</div>
-                    </div>
-                </div>
+    <div class="col-md-4 mb-4">
+        <div class="card stats-card text-center">
+            <div class="card-body py-4">
+                <div class="stats-number">24/7</div>
+                <div class="stats-label">Threat Monitoring</div>
+                <div class="text-muted small mt-2">Today: {{ stats.articles_today if stats else 0 }} articles</div>
             </div>
         </div>
     </div>
     
-    <div class="col-md-3 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        <i data-feather="clock" class="text-warning" width="24" height="24"></i>
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <div class="text-muted small">Pending Telegram</div>
-                        <div class="h4 mb-0">{{ stats.pending_telegram if stats else 0 }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-3 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        <i data-feather="alert-circle" class="text-danger" width="24" height="24"></i>
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <div class="text-muted small">Failed</div>
-                        <div class="h4 mb-0">{{ stats.failed_articles if stats else 0 }}</div>
-                    </div>
-                </div>
+    <div class="col-md-4 mb-4">
+        <div class="card stats-card text-center">
+            <div class="card-body py-4">
+                <div class="stats-number">AI</div>
+                <div class="stats-label">Intelligence Analysis</div>
+                <div class="text-muted small mt-2">Pending: {{ stats.pending_telegram if stats else 0 }} | Failed: {{ stats.failed_articles if stats else 0 }}</div>
             </div>
         </div>
     </div>
