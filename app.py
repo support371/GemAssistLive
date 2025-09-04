@@ -48,3 +48,13 @@ with app.app_context():
 
 # Import routes after app initialization
 from routes import *  # noqa: F401, F403
+
+# Initialize scheduler
+try:
+    from scheduler import GemFeedScheduler
+    scheduler = GemFeedScheduler()
+    scheduler.start()
+    logger.info("GemFeed Scheduler started successfully")
+except Exception as e:
+    logger.error(f"Failed to start scheduler: {e}")
+    logger.info("Application will continue without scheduler - manual operations available")
