@@ -36,7 +36,9 @@ class GemFeedScheduler:
             logger.info("Initializing GemFeed Scheduler")
             
             # Validate Telegram configuration first
-            self.telegram_bot.validate_config()
+            telegram_valid = self.telegram_bot.validate_config()
+            if not telegram_valid:
+                logger.warning("Telegram not configured - will collect news but won't send notifications")
             
             # Add jobs
             self._add_news_collection_job()
