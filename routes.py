@@ -1,7 +1,7 @@
 from flask import render_template, jsonify, request, flash, redirect, url_for
 from app import app, db
 from models import NewsArticle, SystemStatus, TelegramMessage
-from scheduler import get_scheduler
+# Avoid circular imports - import scheduler functions when needed
 from config import Config
 import logging
 from datetime import datetime, timedelta
@@ -36,8 +36,12 @@ def dashboard():
         }
         
         # Get job status from scheduler
-        scheduler = get_scheduler()
-        jobs = scheduler.get_job_status() if scheduler else []
+        try:
+            from scheduler import get_scheduler
+            scheduler = get_scheduler()
+            jobs = scheduler.get_job_status() if scheduler else []
+        except ImportError:
+            jobs = []
         
         return render_template('dashboard.html', 
                              system_statuses=system_statuses,
@@ -152,11 +156,15 @@ def api_articles():
 def api_manual_collect():
     """Manually trigger news collection"""
     try:
-        scheduler = get_scheduler()
-        if not scheduler:
+        try:
+            from scheduler import get_scheduler
+            scheduler = get_scheduler()
+            if not scheduler:
+                return jsonify({'success': False, 'error': 'Scheduler not available'}), 500
+            
+            count = scheduler.run_immediate_collection()
+        except ImportError:
             return jsonify({'success': False, 'error': 'Scheduler not available'}), 500
-        
-        count = scheduler.run_immediate_collection()
         
         return jsonify({
             'success': True,
@@ -172,11 +180,15 @@ def api_manual_collect():
 def api_manual_telegram():
     """Manually trigger Telegram sending"""
     try:
-        scheduler = get_scheduler()
-        if not scheduler:
+        try:
+            from scheduler import get_scheduler
+            scheduler = get_scheduler()
+            if not scheduler:
+                return jsonify({'success': False, 'error': 'Scheduler not available'}), 500
+            
+            count = scheduler.run_immediate_telegram_send()
+        except ImportError:
             return jsonify({'success': False, 'error': 'Scheduler not available'}), 500
-        
-        count = scheduler.run_immediate_telegram_send()
         
         return jsonify({
             'success': True,
