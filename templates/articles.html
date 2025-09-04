@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Articles - GemFeed{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3 mb-0">
+                <i data-feather="file-text" class="me-2"></i>
+                Articles
+            </h1>
+            <div class="d-flex align-items-center">
+                <select class="form-select me-2" id="sourceFilter">
+                    <option value="">All Sources</option>
+                    {% for source in sources %}
+                    <option value="{{ source }}" {% if current_source == source %}selected{% endif %}>
+                        {{ source.title().replace('_', ' ') }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                {% if articles.items %}
+                    {% for article in articles.items %}
+                    <div class="article-card border-bottom py-3 {% if loop.last %}border-0 pb-0{% endif %}">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-2">
+                                    <a href="{{ article.url }}" target="_blank" class="text-decoration-none">
+                                        {{ article.title }}
+                                    </a>
+                                </h6>
+                                {% if article.description %}
+                                    <p class="text-muted small mb-2">
+                                        {{ article.description[:200] }}...
+                                    </p>
+                                {% endif %}
+                                <div class="d-flex align-items-center text-muted small">
+                                    <span class="badge bg-secondary me-2">{{ article.source.title().replace('_', ' ') }}</span>
+                                    <i data-feather="calendar" width="14" height="14" class="me-1"></i>
+                                    <span>{{ article.collected_at.strftime('%Y-%m-%d %H:%M UTC') }}</span>
+                                    {% if article.telegram_sent %}
+                                        <i data-feather="check-circle" width="14" height="14" class="ms-2 text-success"></i>
+                                        <span class="text-success small">Sent</span>
+                                    {% else %}
+                                        <i data-feather="clock" width="14" height="14" class="ms-2 text-warning"></i>
+                                        <span class="text-warning small">Pending</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    <!-- Pagination -->
+                    {% if articles.pages > 1 %}
+                    <nav class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            {% if articles.has_prev %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ url_for('articles_page', page=articles.prev_num, source=current_source) }}">Previous</a>
+                                </li>
+                            {% endif %}
+                            
+                            {% for page_num in articles.iter_pages() %}
+                                {% if page_num %}
+                                    {% if page_num != articles.page %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ url_for('articles_page', page=page_num, source=current_source) }}">{{ page_num }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ page_num }}</span>
+                                        </li>
+                                    {% endif %}
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">…</span>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if articles.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ url_for('articles_page', page=articles.next_num, source=current_source) }}">Next</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+                {% else %}
+                    <p class="text-muted mb-0">No articles found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('sourceFilter').addEventListener('change', function() {
+    const source = this.value;
+    const url = new URL(window.location);
+    if (source) {
+        url.searchParams.set('source', source);
+    } else {
+        url.searchParams.delete('source');
+    }
+    url.searchParams.delete('page'); // Reset to first page
+    window.location.href = url.toString();
+});
+</script>
+{% endblock %}
