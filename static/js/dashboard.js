@@ -30,6 +30,12 @@ class GemFeedDashboard {
         if (sendTelegramBtn) {
             sendTelegramBtn.addEventListener('click', () => this.triggerTelegramSend());
         }
+
+        // Refresh feeds button
+        const refreshBtn = document.getElementById('refreshBtn');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', () => this.refreshDashboard());
+        }
         
         // Auto-refresh toggle (could be added to UI)
         document.addEventListener('keydown', (e) => {
