@@ -1,0 +1,119 @@
+import os
+import sqlite3
+import feedparser
+import requests
+import logging
+
+# --- Telegram Setup ---
+BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "YOUR_BOT_TOKEN")
+CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "YOUR_CHAT_ID")
+
+DB_FILE = "database.db"
+
+# --- Database Setup ---
+def init_db():
+    conn = sqlite3.connect(DB_FILE)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS rss_feeds (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            url TEXT NOT NULL UNIQUE
+        )
+    """)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS articles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            link TEXT UNIQUE,
+            content TEXT,
+            feed_id INTEGER,
+            FOREIGN KEY(feed_id) REFERENCES rss_feeds(id)
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+# --- Add Feed to Database ---
+def add_feed(name, url):
+    conn = sqlite3.connect(DB_FILE)
+    cur = conn.cursor()
+    try:
+        cur.execute("INSERT OR IGNORE INTO rss_feeds (name, url) VALUES (?, ?)", (name, url))
+        conn.commit()
+    except Exception as e:
+        logging.error(f"Error adding feed {url}: {e}")
+    finally:
+        conn.close()
+
+# --- Get All Feeds ---
+def get_feeds():
+    conn = sqlite3.connect(DB_FILE)
+    cur = conn.cursor()
+    cur.execute("SELECT id, name, url FROM rss_feeds")
+    feeds = cur.fetchall()
+    conn.close()
+    return feeds
+
+# --- Save Article if New ---
+def save_article(title, link, content, feed_id):
+    conn = sqlite3.connect(DB_FILE)
+    cur = conn.cursor()
+    try:
+        cur.execute(
+            "INSERT OR IGNORE INTO articles (title, link, content, feed_id) VALUES (?, ?, ?, ?)",
+            (title, link, content, feed_id),
+        )
+        conn.commit()
+    except Exception as e:
+        logging.error(f"Error saving article {title}: {e}")
+    finally:
+        conn.close()
+
+# --- Send to Telegram ---
+def send_to_telegram(title, content, link):
+    if not BOT_TOKEN or not CHAT_ID:
+        logging.error("Telegram bot token or chat ID not configured")
+        return False
+    try:
+        message = f"*{title}*\n\n{content}\n\n[Read more →]({link})"
+        url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+        data = {
+            "chat_id": CHAT_ID,
+            "text": message,
+            "parse_mode": "Markdown",
+            "disable_web_page_preview": False
+        }
+        response = requests.post(url, data=data, timeout=15)
+        return response.status_code == 200
+    except Exception as e:
+        logging.error(f"Telegram error: {e}")
+        return False
+
+# --- Fetch Feeds and Post ---
+def fetch_and_post():
+    feeds = get_feeds()
+    for feed_id, name, url in feeds:
+        try:
+            parsed = feedparser.parse(url)
+            for entry in parsed.entries[:5]:
+                title = entry.get("title", "No title")
+                content = entry.get("summary", "No content")
+                link = entry.get("link", "")
+
+                save_article(title, link, content, feed_id)
+                send_to_telegram(title, content, link)
+        except Exception as e:
+            logging.error(f"Error parsing {url}: {e}")
+
+# --- Main Workflow ---
+if __name__ == "__main__":
+    init_db()
+    print("✅ System Status: ACTIVE — Database & Telegram workflow started")
+
+    # Add default feeds if not present
+    add_feed("Hacker News", "https://feeds.feedburner.com/TheHackersNews")
+    add_feed("Dark Reading", "https://www.darkreading.com/rss.xml")
+    add_feed("CISA Advisories", "https://www.cisa.gov/cybersecurity-advisories.xml")
+
+    fetch_and_post()
