@@ -5,8 +5,8 @@ logger = logging.getLogger(__name__)
 
 class Config:
     # Telegram Configuration
-    TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
-    TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
+    TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "8000643209:AAEyUlsLk6azaFr3MliT-p3MH2Em1gzM-zo")
+    TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "-1002646603771")
     
     # News Sources Configuration
     NEWS_SOURCES = {
@@ -71,10 +71,10 @@ class Config:
         """Validate essential configuration"""
         errors = []
         
-        if not cls.TELEGRAM_BOT_TOKEN:
+        if not cls.TELEGRAM_BOT_TOKEN or cls.TELEGRAM_BOT_TOKEN == "":
             errors.append("TELEGRAM_BOT_TOKEN environment variable is required")
             
-        if not cls.TELEGRAM_CHAT_ID:
+        if not cls.TELEGRAM_CHAT_ID or cls.TELEGRAM_CHAT_ID == "":
             errors.append("TELEGRAM_CHAT_ID environment variable is required")
         
         if errors:
