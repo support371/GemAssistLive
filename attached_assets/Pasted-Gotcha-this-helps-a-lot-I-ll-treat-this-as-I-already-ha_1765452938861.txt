@@ -1,0 +1,136 @@
+Gotcha, this helps a lot 👍 I’ll treat this as:
+
+“I already have a website (Newsletter Automation) that auto-generates article + image + video. I want only that content section to be connected to my Telegram channel, using logo + summary + full content, with video/image handled properly.”
+
+I’ll give you a ready-to-send instruction for your developer/agent.
+
+⸻
+
+📩 Message You Can Send to Your Developer
+
+You can copy‑paste this and just fill in the website URL and channel name if needed.
+
+⸻
+
+Subject: Connect “Newsletter Automation” content (video + image + article) to Telegram channel
+
+Hello [Name],
+
+I’d like you to update my system so that my existing Newsletter Automation website and my Telegram channel work together in a clean, controlled way.
+
+1. Use ONLY the existing “Newsletter Automation” content as the source
+
+On my website, there is already an automated newsletter service that generates:
+	•	Article text
+	•	Image
+	•	Video
+
+This has its own fields/section already.
+
+I want you to:
+	•	Use only this existing content source as the input for my Telegram automation.
+	•	Do not rebuild the content generator.
+	•	Do not pull random content from other parts of the site for Telegram.
+
+In short:
+
+The Telegram automation should read from the Newsletter Automation content fields only.
+
+⸻
+
+2. Fields that must flow into Telegram
+
+From each article in the Newsletter Automation system, please use these fields:
+	•	✅ Company logo
+	•	✅ Main heading / title
+	•	✅ Summary
+	•	✅ Full content / body
+	•	✅ Image (if available)
+	•	✅ Video (if available)
+
+If the system does not already separate these, please map them as:
+	•	title
+	•	summary
+	•	body or content
+	•	image_url
+	•	video_url
+	•	logo_url
+
+⸻
+
+3. Telegram content logic (video + image behavior)
+
+For each new article from the Newsletter Automation:
+	1.	If there is a video:
+	•	Use the video (or video thumbnail + link) as the main media in the Telegram post.
+	•	The layout should be:
+	•	[Logo + Title + Subheading]
+	•	[Video or video thumbnail]
+	•	[Summary]
+	•	[Full content]
+	2.	If there is no video but there is an image:
+	•	Use the image as the main media (full-width if possible).
+	•	Layout:
+	•	[Logo + Title + Subheading]
+	•	[Image]
+	•	[Summary]
+	•	[Full content]
+	3.	If there is no media at all:
+	•	Just send:
+	•	[Logo + Title + Subheading]
+	•	[Summary]
+	•	[Full content]
+
+⸻
+
+4. Visual / branding structure for the Telegram post
+
+The Telegram message for each item should be structured like this (conceptually):
+
+[GEM logo at top]
+[TITLE – in all caps, using the brand style]
+[Subheading – 1–2 lines, explanatory]
+[Video or image]
+SUMMARY: short preview text
+FULL CONTENT: main article text
+
+I want it to look like a professional content card, not just a block of plain text.
+
+⸻
+
+5. Routing rules
+	•	This content should be automatically posted into my Telegram channel:
+@CyberWealthSecure (or the correct channel ID you are using).
+	•	Other website content (pages, sections, etc.) should not be sent to Telegram.
+	•	All remaining website content can continue working as normal on the website only.
+
+⸻
+
+6. Newsletter reuse (optional, if possible)
+
+Because this is coming from the Newsletter Automation system, please structure it so that:
+	•	The same fields (title, summary, full body, image/video) can also be used easily by:
+	•	Zoho / Mailchimp, or
+	•	Whatever email newsletter system we connect.
+
+If you can, please keep the fields clean and consistent so the newsletter template can consume the same data later.
+
+⸻
+
+7. What I’d like from you
+
+Please let me know:
+	1.	How you plan to read the content (RSS feed, API, direct DB, etc.).
+	2.	How you will map the fields into Telegram messages.
+	3.	If there are any technical limitations around:
+	•	Embedding video vs using a thumbnail + link
+	•	Message size limits on Telegram
+
+Thank you,
+[GEM Assist / Your Name]
+
+⸻
+
+If you want, next I can:
+	•	Turn this into a more technical spec (with sample JSON and payload structures), or
+	•	Help you write what the actual Telegram message text should look like using your GEM brand for one real example.
