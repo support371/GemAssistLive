@@ -1,0 +1,26 @@
+2025-12-12 07:30:21,468 - INFO - ✅ Newsletter database initialized
+2025-12-12 07:30:21,468 - WARNING - ⚠️ TELEGRAM_BOT_TOKEN not configured - Telegram sending disabled
+2025-12-12 07:30:21,468 - WARNING - ⚠️ TELEGRAM_BOT_TOKEN not configured - Telegram sending disabled
+2025-12-12 07:30:21,469 - ERROR - ❌ Error sending text: Invalid URL 'None/sendMessage': No scheme supplied. Perhaps you meant https://None/sendMessage?
+2025-12-12 07:30:21,469 - WARNING - ⚠️ TELEGRAM_BOT_TOKEN not configured - Telegram sending disabled
+2025-12-12 07:30:21,469 - WARNING - ⚠️ Telegram not configured - skipping content delivery
+2025-12-12 07:30:21,470 - INFO - ⏰ Scheduler configured - checking for content every 5 minutes
+2025-12-12 07:30:21,471 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.2:5000
+2025-12-12 07:30:21,471 - INFO - [33mPress CTRL+C to quit[0m
+2025-12-12 07:30:31,039 - INFO - 127.0.0.1 - - [12/Dec/2025 07:30:31] "GET / HTTP/1.1" 200 -
+2025-12-12 07:42:38,928 - INFO - ✅ Newsletter database initialized
+2025-12-12 07:42:38,929 - WARNING - ⚠️ TELEGRAM_BOT_TOKEN not configured - Telegram sending disabled
+2025-12-12 07:42:38,930 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.2:5000
+2025-12-12 07:42:38,930 - WARNING - ⚠️ TELEGRAM_BOT_TOKEN not configured - Telegram sending disabled
+2025-12-12 07:42:38,930 - INFO - [33mPress CTRL+C to quit[0m
+2025-12-12 07:42:38,932 - ERROR - ❌ Error sending text: Invalid URL 'None/sendMessage': No scheme supplied. Perhaps you meant https://None/sendMessage?
+2025-12-12 07:42:38,932 - WARNING - ⚠️ TELEGRAM_BOT_TOKEN not configured - Telegram sending disabled
+2025-12-12 07:42:38,932 - WARNING - ⚠️ Telegram not configured - skipping content delivery
+2025-12-12 07:42:38,932 - INFO - ⏰ Scheduler configured - checking for content every 5 minutes
+2025-12-12 07:42:49,645 - INFO - 127.0.0.1 - - [12/Dec/2025 07:42:49] "GET / HTTP/1.1" 200 -
