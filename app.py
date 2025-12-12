@@ -46,7 +46,7 @@ def initialize_newsletter():
 init_thread = threading.Thread(target=initialize_newsletter, daemon=True)
 init_thread.start()
 
-DASHBOARD_TEMPLATE = """
+dashboard_template = """
 <!DOCTYPE html>
 <html>
 <head>
@@ -248,7 +248,7 @@ DASHBOARD_TEMPLATE = """
 </html>
 """
 
-ADD_CONTENT_TEMPLATE = """
+add_content_template = """
 <!DOCTYPE html>
 <html>
 <head>
@@ -371,7 +371,7 @@ def dashboard():
     try:
         stats = get_system_stats()
         content_list = get_all_content(20)
-        return render_template_string(DASHBOARD_TEMPLATE, stats=stats, content_list=content_list)
+        return render_template_string(dashboard_template, stats=stats, content_list=content_list)
     except Exception as e:
         return jsonify({'error': str(e), 'status': 'error'})
 
@@ -395,7 +395,7 @@ def add_content_page():
         except Exception as e:
             return jsonify({'error': str(e)})
     
-    return render_template_string(ADD_CONTENT_TEMPLATE)
+    return render_template_string(add_content_template)
 
 @app.route('/api/stats')
 def api_stats():
