@@ -55,6 +55,8 @@ dashboard_template = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Vercel Web Analytics -->
+    <script defer src="https://cdn.vercel-analytics.com/v1/web.js"></script>
     <style>
         body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%); min-height: 100vh; }
         .cyber-card { background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; backdrop-filter: blur(10px); border-radius: 12px; }
